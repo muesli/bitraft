@@ -160,7 +160,9 @@ func (kvm *Machine) Restore(rd io.Reader) error {
 		if _, err := io.ReadFull(r, value); err != nil {
 			return err
 		}
-		kvm.db.Put(string(key), value)
+		if err := kvm.db.Put(string(key), value); err != nil {
+			return err
+		}
 	}
 	return gzr.Close()
 }
